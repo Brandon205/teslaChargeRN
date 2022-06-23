@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import axios from 'axios';
 
 export default function App() {
-  const baseURL = 'http://localhost:8080'
+  const baseURL = 'http://localhost:8080';
   const [carData, setCarData] = useState('');
 
   useEffect(() => {
