@@ -8,31 +8,26 @@ export default function App() {
 
   useEffect(() => {
     axios.get(baseURL + '/vehicle/' + '1492931281739069').then(response => {
-      console.log(response.data)
-      setCarData(response.data)
+      if (response.status === 200) {
+        setCarData(response.data)
+      }
     }).catch(error => {
       console.log(error)
     })
   }, [])
 
-    axios.get(baseURL + '/home').then((response) => {
-      console.log(response);
-    }).catch(error => {
-      console.log("ERROR", error)
-    })
-
     let content;
-    if (carData) {
+    if (carData !== '') {
       content = (
         <View>
-          <Text>Car Name: {carData.display_name}</Text>
+          <Text style={{fontWeight: 'bold'}}>Car Name: {carData.response.display_name}</Text>
         </View>
       )
     }
 
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <Text>Here is some info on your vehicle:</Text>
       {content}
     </View>
   );
