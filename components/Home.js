@@ -12,8 +12,6 @@ export default function Home() {
       axios.get(baseURL + '/vehicles').then(response => {
         if (response.status === 200) {
           setCarData(response.data.response)
-          console.log(carData)
-          console.log(response.data.response)
         }
       }).catch(error => {
         console.log("ERROR!!! ", error);
