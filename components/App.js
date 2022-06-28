@@ -1,17 +1,17 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { NativeRouter, Route, Link, Routes } from 'react-router-native';
+import { NativeRouter, Route, Link, Routes, useParams } from 'react-router-native';
 import Home from './Home';
 import Vehicle from './Vehicle';
 
 export default function App() {
 
-  let vehiclePage = (props) => {
-    console.log(props)
-    return (
-      <Vehicle vID={match.params.id} />
-    )
-  }
+  // let vehiclePage = (props) => {
+  //   console.log(props)
+  //   return (
+  //     <Vehicle vID={match.params.id} />
+  //   )
+  // }
 
   return (
     <NativeRouter>
@@ -27,8 +27,12 @@ export default function App() {
 
         <Routes>
           <Route exact path="/" element={<Home />}> </Route>
-          {/* <Route path="/vehicle/:id" element={vehiclePage()} /> */}
-          <Route path="/vehicle/:id" render={(match) => <Vehicle vID={match.params.id} /> }> </Route>
+          {/* <Route path="/vehicle/:id" element={<Vehicle />} /> */}
+          {/* <Route path="/vehicle/:id">
+            <Vehicle vID={useParams.id} />
+          </Route> */}
+          <Route path="/vehicle/:vID" element={<Vehicle testProp="21" />} />
+          {/* <Route path="/vehicle/:id" render={(match) => <Vehicle vID={match.params.id} /> }> </Route> */}
         </Routes>
       </View>
     </NativeRouter>

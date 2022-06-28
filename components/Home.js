@@ -8,15 +8,15 @@ export default function Home() {
     
     const baseURL = 'http://localhost:8080';
 
-    useEffect(() => {
-        axios.get(baseURL + '/vehicle/' + vehicleID).then(response => {
-            if (response.status === 200) {
-                setCarData(response.data)
-            }
-            }).catch(error => {
-                console.log(error)
-            })
-    }, [])
+    // useEffect(() => {
+    //     axios.get(baseURL + '/vehicle/' + vehicleID).then(response => {
+    //         if (response.status === 200) {
+    //             setCarData(response.data)
+    //         }
+    //         }).catch(error => {
+    //             console.log(error)
+    //         })
+    // }, [])
 
     let content;
     if (carData) {
