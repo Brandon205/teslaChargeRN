@@ -3,20 +3,21 @@ import { View, Text, StyleSheet } from 'react-native';
 import axios from 'axios';
 
 export default function Home() {
-    const [vehicleID, setVehicleID] = useState('1492931281739069');
+    // const [vehicleID, setVehicleID] = useState('1492931281739069');
     const [carData, setCarData] = useState('');
     
-    const baseURL = 'http://localhost:8080';
+    const baseURL = 'http://localhost:8080'; // DEPLOYMENT TODO: Change this to the backend's host
 
-    // useEffect(() => {
-    //     axios.get(baseURL + '/vehicle/' + vehicleID).then(response => {
-    //         if (response.status === 200) {
-    //             setCarData(response.data)
-    //         }
-    //         }).catch(error => {
-    //             console.log(error)
-    //         })
-    // }, [])
+    useEffect(() => {
+      axios.get(baseURL + '/vehicles').then(response => {
+        if (response.status === 200) {
+          setCarData(response.data.response)
+          console.log(response.data.response)
+        }
+      }).catch(error => {
+        console.log("ERROR!!! ", error);
+      })
+    }, [])
 
     let content;
     if (carData) {
