@@ -4,14 +4,14 @@ import { Link } from 'react-router-native';
 import axios from 'axios';
 
 export default function Home() {
-    const [carData, setCarData] = useState([]);
+    const [carsData, setCarsData] = useState([]);
     
     const baseURL = 'http://localhost:8080'; // DEPLOYMENT TODO: Change this to the backend's host
 
     useEffect(() => {
       axios.get(baseURL + '/vehicles').then(response => {
         if (response.status === 200) {
-          setCarData(response.data.response)
+          setCarsData(response.data.response)
         }
       }).catch(error => {
         console.log("ERROR!!! ", error);
@@ -19,8 +19,8 @@ export default function Home() {
     }, [])
 
     let content;
-    if (carData.length > 0) {
-      content = carData.map((car, id) => 
+    if (carsData.length > 0) {
+      content = carsData.map((car, id) => 
         <View style={styles.card} key={id}>
           <Text>{car.display_name}</Text>
           <Text>Currently {car.in_service ? 'in use' : 'not in use' }</Text>

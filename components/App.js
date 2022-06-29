@@ -10,10 +10,7 @@ export default function App() {
       <View style={styles.container}>
         <View style={styles.nav}>
           <Link to="/">
-            <Text>Home </Text>
-          </Link>
-          <Link to="/vehicle/1492931281739069">
-            <Text>Vehicle</Text>
+            <Text style={styles.link}>Home</Text>
           </Link>
         </View>
 
@@ -37,5 +34,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  link: {
+    fontSize: '2em'
   }
 });
