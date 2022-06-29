@@ -7,12 +7,13 @@ export default function Vehicle() {
   const { vID } = useParams(); // The vehicle ID, passed in as a param in the URL
   const [ carData, setCarData ] = useState({}); //The basic information of the car
   const [ chargeData, setChargeData ] = useState({}); // The charge data of the car, once requested
-  const [ awake, setAwake ] = useState('Unknown'); // If the car is awake or not
   const baseURL = 'http://localhost:8080'; // DEPLOYMENT TODO: Change this to the backend's host
+  let awake = 'Unknown';
 
   useEffect(() => { // For calling the backend for the selected vehicles information
     axios.get(baseURL + '/vehicle/' + vID).then(response => {
       if (response.status > 199 && response.status < 300) {
+        awake = response.data.response.state;
         setCarData(response.data.response)
       } // TODO: else throw new Error("Error message") < on all routes similar to this probably
       }).catch(error => {
@@ -35,8 +36,7 @@ export default function Vehicle() {
     axios.get(baseURL + '/wakeup/' + vID).then(response => {
       console.log('trying to access wakeup')
       if (response.status > 199 && response.status < 300) {
-        console.log('Call Success, car is currently: ' + response.data.response.state)
-        setAwake(response.data.response.state)
+        console.log('Wake Up Success, car is currently: ' + response.data.response.state)
       } 
     }).catch(error => {
       console.log("ERROR with wakeup route", error)
@@ -49,26 +49,24 @@ export default function Vehicle() {
     basicDetails = (
       <View style={styles.container}>
         <Text style={styles.carName}>{carData.display_name}</Text>
-        <Text>Currently {carData.in_service ? "in service" : "not in service"} and is {carData.state}</Text>
+        <Text>Currently {carData.in_service ? "driving" : "not driving"} and is {carData.state}</Text>
         <TouchableHighlight onPress={() => getCharge()}>
           <View style={styles.button}>
-            <Text>↓ Charge Details ↓</Text>
+            <Text>See Charge Details</Text>
           </View>
         </TouchableHighlight>
-        <View style={{display: displayCharge}}>
-          <Text style={styles.chargeDetails}>Battery Percentage: {chargeData.battery_level} </Text>
-          <Text style={styles.chargeDetails}>Battery Range: {chargeData.battery_range} </Text>
-          <Text style={styles.chargeDetails}>Charge Amps: {chargeData.charge_amps} </Text>
-          <Text style={styles.chargeDetails}>Charge Miles Added This Charge: {chargeData.charge_miles_added_rated} </Text>
-          <Text style={styles.chargeDetails}>Charge Port Cold Weather Mode: {chargeData.charge_port_cold_weather_mode} </Text>
-          <Text style={styles.chargeDetails}>Charge Port Latch: {chargeData.charge_port_latch} </Text>
-          <Text style={styles.chargeDetails}>Current Charging Rate: {chargeData.charge_rate} </Text>
-          <Text style={styles.chargeDetails}>Current Charging State: {chargeData.charging_state} </Text>
-          <Text style={styles.chargeDetails}>Supercharger connected: {chargeData.fast_charger_present} </Text>
-          <Text style={styles.chargeDetails}>Minutes Until Fully Charged {chargeData.minutes_to_full_charge} </Text>
-          <Text style={styles.chargeDetails}>Preconditioning Enabled: {chargeData.preconditioning_enabled} </Text>
-          <Text style={styles.chargeDetails}>Time Until Fully Charged: {chargeData.time_to_full_charge} </Text>
-          <Text style={styles.chargeDetails}>Scheduled Charging Mode: {chargeData.scheduled_charging_mode} </Text>
+        <View style={{display: displayCharge, marginBottom: 25}}>
+          <Text style={styles.chargeDetails}>Battery Percentage: <Text style={styles.information}>{chargeData.battery_level}%</Text> </Text>
+          <Text style={styles.chargeDetails}>Battery Range: <Text style={styles.information}>{chargeData.battery_range}mi</Text> </Text>
+          <Text style={styles.chargeDetails}>Charge Amps: <Text style={styles.information}>{chargeData.charge_amps} A</Text> </Text>
+          <Text style={styles.chargeDetails}>Charge Miles Added This Charge: <Text style={styles.information}>{chargeData.charge_miles_added_rated}mi</Text> </Text>
+          <Text style={styles.chargeDetails}>Charge Port Cold Weather Mode: <Text style={styles.information}>{chargeData.charge_port_cold_weather_mode ? 'True' : 'False'}</Text> </Text>
+          <Text style={styles.chargeDetails}>Charge Port Latch: <Text style={styles.information}>{chargeData.charge_port_latch}</Text> </Text>
+          <Text style={styles.chargeDetails}>Current Charging Rate: <Text style={styles.information}>{chargeData.charge_rate} A</Text> </Text>
+          <Text style={styles.chargeDetails}>Current Charging State: <Text style={styles.information}>{chargeData.charging_state}</Text> </Text>
+          <Text style={styles.chargeDetails}>Supercharger connected: <Text style={styles.information}>{chargeData.fast_charger_present ? 'True' : 'False'}</Text> </Text>
+          <Text style={styles.chargeDetails}>Time Until Fully Charged: <Text style={styles.information}>{chargeData.minutes_to_full_charge} minutes</Text> </Text>
+          <Text style={styles.chargeDetails}>Scheduled Charging Mode: <Text style={styles.information}>{chargeData.scheduled_charging_mode}</Text> </Text>
         </View>
       </View>
     )
@@ -92,7 +90,7 @@ export default function Vehicle() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -108,6 +106,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     padding: 10,
     backgroundColor: "#DDDDDD",
-    marginBottom: 15
+    marginBottom: 15,
+    marginTop: 15
+  },
+  information: {
+    fontWeight: 'bold'
   }
   });
