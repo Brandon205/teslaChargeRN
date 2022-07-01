@@ -35,6 +35,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   link: {
-    fontSize: '2em'
+    fontSize: 25
   }
 });

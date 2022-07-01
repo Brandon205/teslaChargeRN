@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     card: {
       borderRadius: 15,
       backgroundColor: 'whitesmoke',
-      elevation: 5,
+      // elevation: 5,
       padding: 10,
       marginTop: 10,
       textAlign: 'center'
